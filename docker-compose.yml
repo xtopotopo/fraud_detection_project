@@ -1,53 +1,87 @@
-version: '3.8'
+version: '3'
+
 services:
+
+
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    volumes:
+      - type: bind
+        source: ./kafka/zookeeper-data
+        target: /var/lib/zookeeper/data
+      - type: bind
+        source: ./kafka/zookeeper-logs
+        target: /var/lib/zookeeper/log
 
   kafka:
     image: confluentinc/cp-kafka:latest
+    container_name: kafka
     environment:
       KAFKA_BROKER_ID: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
     depends_on:
       - zookeeper
     ports:
       - "9092:9092"
+    volumes:
+      - ./kafka/kafka-data:/var/lib/kafka/data
 
-  pyspark:
-    build:
-      context: ./pyspark
-      dockerfile: Dockerfile
-    depends_on:
-      - kafka
+  schema-registry:
+    image: confluentinc/cp-schema-registry:latest
+    container_name: schema_registry
+    ports:
+      - "8081:8081"
+    environment:
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:9092
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
 
+ 
   ml_model:
     build:
       context: ./ml_model
-      dockerfile: Dockerfile
-    depends_on:
-      - pyspark
-
-  kafka-connect:
-    image: confluentinc/cp-kafka-connect:latest
-    depends_on:
-      - kafka
-    environment:
-      CONNECT_BOOTSTRAP_SERVERS: kafka:9092
-      CONNECT_REST_PORT: 8083
-      CONNECT_GROUP_ID: "kafka-connect-group"
-      CONNECT_CONFIG_STORAGE_TOPIC: "connect-config"
-      CONNECT_OFFSET_STORAGE_TOPIC: "connect-offsets"
-      CONNECT_STATUS_STORAGE_TOPIC: "connect-status"
+      dockerfile: DockerFile
+    container_name: ml_model
+    image: dareeed/fraud_detection_project-ml_model:latest
     ports:
-      - "8083:8083"
+      - "8888:8888" 
+    volumes:
+      - type: bind
+        source: ./ml_model/py_files
+        target: /app/py_files
+      - type: bind
+        source: ./ml_model/csv_files
+        target: /app/csv_files
+    stdin_open: true  
+    tty: true
 
-  cassandra:
-    image: cassandra:latest
+  pyspark:
+    build: 
+      context: ./pyspark
+      dockerfile: DockerFile
+    container_name: pyspark
+    image: dareeed/fraud_detection_project-pyspark:latest
     ports:
-      - "9042:9042"
+      - "8889:8888" 
+    volumes:
+      - ./pyspark/py_files:/app/py_files
+      - ./pyspark/preprocessors:/app/preprocessors
+      - ./pyspark/models:/app/models
+      - ./pyspark/csv:/app/csv
+      - ./pyspark/json:/app/json
+ 
+   
+
+
+
