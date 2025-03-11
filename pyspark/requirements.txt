@@ -5,3 +5,7 @@ joblib
 jupyter
 kafka-python
 xgboost
+confluent_kafka
+cachetools
+authlib
+fastavro
