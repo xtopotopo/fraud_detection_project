@@ -1,0 +1,18 @@
+FROM confluentinc/cp-schema-registry:latest
+
+EXPOSE 8081
+
+ENV SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS=PLAINTEXT://kafka:9092
+ENV SCHEMA_REGISTRY_HOST_NAME=schema-registry
+ENV SCHEMA_REGISTRY_LISTENERS=http://0.0.0.0:8081
+ENV SCHEMA_REGISTRY_URL=http://schema-registry:8081
+
+USER root
+
+WORKDIR /app
+
+RUN dnf update && dnf install -y jq
+
+RUN chmod +x /app/init.sh\
+    sh init.sh
+

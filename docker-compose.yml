@@ -37,15 +37,7 @@ services:
     volumes:
       - ./kafka/kafka-data:/var/lib/kafka/data
 
-  schema-registry:
-    image: confluentinc/cp-schema-registry:latest
-    container_name: schema_registry
-    ports:
-      - "8081:8081"
-    environment:
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:9092
-      SCHEMA_REGISTRY_HOST_NAME: schema-registry
-      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+  
 
  
   ml_model:
@@ -80,6 +72,19 @@ services:
       - ./pyspark/models:/app/models
       - ./pyspark/csv:/app/csv
       - ./pyspark/json:/app/json
+
+  schema-registry:
+    build:
+      context: ./schema_registry
+      dockerfile: DockerFile
+    container_name: schema-registry
+    depends_on:
+      - kafka
+    volumes:
+      - ./schema_registry/schemas:/app/schemas  
+      - ./schema_registry/init.sh:/app/init.sh
+    ports:
+      - "8081:8081"
  
    
 

@@ -1,4 +1,4 @@
-kafka/kafka-logs/
+kafka/kafka-data/
 kafka/zookeeper-logs/
 kafka/zookeeper-data/
 ml_model/csv_files/
