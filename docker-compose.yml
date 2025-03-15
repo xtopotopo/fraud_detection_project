@@ -20,7 +20,9 @@ services:
         target: /var/lib/zookeeper/log
 
   kafka:
-    image: confluentinc/cp-kafka:latest
+    build:
+      context: ./kafka
+      dockerfile: DockerFile
     container_name: kafka
     environment:
       KAFKA_BROKER_ID: 1
@@ -36,10 +38,8 @@ services:
       - "9092:9092"
     volumes:
       - ./kafka/kafka-data:/var/lib/kafka/data
+      - ./kafka/bash_scripts:/app/bash_scripts
 
-  
-
- 
   ml_model:
     build:
       context: ./ml_model
@@ -63,7 +63,6 @@ services:
       context: ./pyspark
       dockerfile: DockerFile
     container_name: pyspark
-    image: dareeed/fraud_detection_project-pyspark:latest
     ports:
       - "8889:8888" 
     volumes:

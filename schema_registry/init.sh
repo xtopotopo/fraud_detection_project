@@ -11,7 +11,7 @@ for schema_file in /app/schemas/*.avsc
 do
   if [[ -f "$schema_file" ]]
   then
-    SUBJECT_NAME=$(basename "$schema_file" .avsc)
+    SUBJECT_NAME=$(basename "$schema_file" .avsc)-value
     echo "Registering schema: $SUBJECT_NAME"
 
     SCHEMA_CONTENT=$(jq -Rs '.' < "$schema_file")

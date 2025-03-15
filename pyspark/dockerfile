@@ -2,12 +2,13 @@ FROM openjdk:11
 
 RUN apt-get update && apt-get install -y python3 python3-pip
 
-COPY requirements.txt .
+WORKDIR /app
+
+COPY ./requirements.txt /app
 
 RUN pip3 install --no-cache-dir -r requirements.txt 
 
 EXPOSE 8888
 
-WORKDIR /app
 
 CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token=''"]

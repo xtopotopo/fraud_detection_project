@@ -4,5 +4,4 @@ kafka/zookeeper-data/
 ml_model/csv_files/
 ml_model/py_files/.Trash-0/
 pyspark/py_files/spark-warehouse/
-pyspark/py_files/test.ipynb
-pyspark/temp_files/
+pyspark/py_files/producer.ipynb

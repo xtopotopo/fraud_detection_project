@@ -11,7 +11,8 @@ USER root
 
 WORKDIR /app
 
-RUN dnf update && dnf install -y jq
+RUN dnf update\
+    dnf install -y jq
 
 RUN chmod +x /app/init.sh\
     sh init.sh
