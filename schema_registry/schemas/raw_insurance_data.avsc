@@ -1,77 +1,18 @@
 {
   "type": "record",
-  "name": "topLevelRecord",
+  "name": "InsuranceTransaction",
   "fields": [
-    {
-      "name": "avro",
-      "type": [
-        {
-          "type": "record",
-          "name": "value",
-          "namespace": "topLevelRecord",
-          "fields": [
-            {
-              "name": "client_id",
-              "type": "string"
-            },
-            {
-              "name": "transaction_id",
-              "type": "string"
-            },
-            {
-              "name": "high_education_ind",
-              "type": ["null", "int"],
-              "default": null
-            },
-            {
-              "name": "past_num_of_claims",
-              "type": ["null", "int"],
-              "default": null
-            },
-            {
-              "name": "gender",
-              "type": ["null", "string"],
-              "default": null
-            },
-            {
-              "name": "address_change_ind",
-              "type": ["null", "int"],
-              "default": null
-            },
-            {
-              "name": "witness_present_ind",
-              "type": ["null", "int"],
-              "default": null
-            },
-            {
-              "name": "marital_status",
-              "type": ["null", "int"],
-              "default": null
-            },
-            {
-              "name": "channel",
-              "type": ["null", "string"],
-              "default": null
-            },
-            {
-              "name": "accident_site",
-              "type": ["null", "string"],
-              "default": null
-            },
-            {
-              "name": "living_status",
-              "type": ["null", "string"],
-              "default": null
-            },
-            {
-              "name": "vehicle_category",
-              "type": ["null", "string"],
-              "default": null
-            }
-          ]
-        },
-        "null"
-      ]
-    }
+    {"name": "client_id", "type": "string"},
+    {"name": "transaction_id", "type": "string"},
+    {"name": "high_education_ind", "type": ["int", "null"], "default": null},
+    {"name": "past_num_of_claims", "type": ["int", "null"], "default": null},
+    {"name": "gender", "type": ["string", "null"], "default": null},
+    {"name": "address_change_ind", "type": ["int", "null"], "default": null},
+    {"name": "witness_present_ind", "type": ["int", "null"], "default": null},
+    {"name": "marital_status", "type": ["int", "null"], "default": null},
+    {"name": "channel", "type": ["string", "null"], "default": null},
+    {"name": "accident_site", "type": ["string", "null"], "default": null},
+    {"name": "living_status", "type": ["string", "null"], "default": null},
+    {"name": "vehicle_category", "type": ["string", "null"], "default": null}
   ]
 }

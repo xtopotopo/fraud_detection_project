@@ -71,6 +71,7 @@ services:
       - ./pyspark/models:/app/models
       - ./pyspark/csv:/app/csv
       - ./pyspark/json:/app/json
+      - ./pyspark/schemas:/app/schemas
 
   schema-registry:
     build:
