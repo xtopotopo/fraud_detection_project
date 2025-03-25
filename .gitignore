@@ -4,4 +4,8 @@ kafka/zookeeper-data/
 ml_model/csv_files/
 ml_model/py_files/.Trash-0/
 pyspark/py_files/spark-warehouse/
-pyspark/py_files/producer.ipynb
+pyspark/py_files/credit_data_producer.ipynb
+pyspark/py_files/insurance_data_producer.ipynb
+pyspark/py_files/fraud_prediction_consumer.ipynb
+cassandra/cassandra_data/
+copy_files/

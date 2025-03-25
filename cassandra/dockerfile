@@ -1,0 +1,11 @@
+FROM cassandra:latest
+
+Workdir /app
+
+copy ./bash_scripts/init.sh /app/bash_scripts/init.sh
+copy ./cql_scripts/init-db.cql /app/cql_scripts/init-db.cql
+
+RUN chmod +x /app/bash_scripts/init.sh
+
+
+#ENTRYPOINT ["bash","-c","/app/bash_scripts/init.sh"]

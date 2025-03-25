@@ -4,7 +4,7 @@ USER root
 
 WORKDIR /app
 
-#COPY ./aliases.sh /app/aliases.sh
-#COPY ./init.sh /app/init.sh
+COPY ./aliases.sh /app/aliases.sh
+COPY ./init.sh /app/init.sh
 
 ENTRYPOINT ["/bin/bash", "-c", "/app/bash_scripts/init.sh && source /app/bash_scripts/aliases.sh && exec /bin/bash"]

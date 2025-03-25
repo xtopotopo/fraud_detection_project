@@ -1,7 +1,6 @@
-version: '3'
+
 
 services:
-
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -11,13 +10,13 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "2181:2181"
-    volumes:
-      - type: bind
-        source: ./kafka/zookeeper-data
-        target: /var/lib/zookeeper/data
-      - type: bind
-        source: ./kafka/zookeeper-logs
-        target: /var/lib/zookeeper/log
+    #volumes:
+      #- type: bind
+      #  source: ./kafka/zookeeper-data
+      #  target: /var/lib/zookeeper/data
+      #- type: bind
+      #  source: ./kafka/zookeeper-logs
+      #  target: /var/lib/zookeeper/log
 
   kafka:
     build:
@@ -37,7 +36,7 @@ services:
     ports:
       - "9092:9092"
     volumes:
-      - ./kafka/kafka-data:/var/lib/kafka/data
+      #- ./kafka/kafka-data:/var/lib/kafka/data
       - ./kafka/bash_scripts:/app/bash_scripts
 
   ml_model:
@@ -65,6 +64,8 @@ services:
     container_name: pyspark
     ports:
       - "8889:8888" 
+    depends_on:
+      - cassandra
     volumes:
       - ./pyspark/py_files:/app/py_files
       - ./pyspark/preprocessors:/app/preprocessors
@@ -72,6 +73,7 @@ services:
       - ./pyspark/csv:/app/csv
       - ./pyspark/json:/app/json
       - ./pyspark/schemas:/app/schemas
+
 
   schema-registry:
     build:
@@ -82,11 +84,20 @@ services:
       - kafka
     volumes:
       - ./schema_registry/schemas:/app/schemas  
-      - ./schema_registry/init.sh:/app/init.sh
+      - ./schema_registry/bash_scripts/init.sh:/app/bash_scripts/init.sh
     ports:
       - "8081:8081"
- 
-   
+
+  cassandra:
+    build:
+      context: ./cassandra
+      dockerfile: DockerFile
+    container_name: cassandra
+    ports:
+      - "9042:9042"
+
+
+
 
 
 

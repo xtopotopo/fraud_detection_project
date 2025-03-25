@@ -11,9 +11,11 @@ USER root
 
 WORKDIR /app
 
-RUN dnf update\
-    dnf install -y jq
+RUN dnf install -y jq
 
-RUN chmod +x /app/init.sh\
-    sh init.sh
+COPY ./bash_scripts/innit.sh /app/bash_scripts/init.sh
+
+RUN chmod +x /app/init.sh
+
+ENTRYPOINT ["/bin/bash", "-c","/app/bash_scripts/init.sh"]
 
