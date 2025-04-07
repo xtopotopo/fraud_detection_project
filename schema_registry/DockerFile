@@ -1,21 +1,15 @@
 FROM confluentinc/cp-schema-registry:latest
 
-EXPOSE 8081
-
-ENV SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS=PLAINTEXT://kafka:9092
-ENV SCHEMA_REGISTRY_HOST_NAME=schema-registry
-ENV SCHEMA_REGISTRY_LISTENERS=http://0.0.0.0:8081
-ENV SCHEMA_REGISTRY_URL=http://schema-registry:8081
-
 USER root
 
 WORKDIR /app
 
 RUN dnf install -y jq
 
-COPY ./bash_scripts/innit.sh /app/bash_scripts/init.sh
+COPY ./bash_scripts/init.sh /app/bash_scripts/init.sh
+COPY ./schemas /app/schemas  
 
-RUN chmod +x /app/init.sh
+RUN chmod +x /app/bash_scripts/init.sh
 
-ENTRYPOINT ["/bin/bash", "-c","/app/bash_scripts/init.sh"]
+ENTRYPOINT bash -c "/app/bash_scripts/init.sh && exec /bin/bash"
 

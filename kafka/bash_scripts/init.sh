@@ -1,5 +1,12 @@
 #!/bin/bash
 
+KAFKA_HOST=${KAFKA_HOST:-kafka}
+KAFKA_PORT=${KAFKA_PORT:-9092}
+
+while ! nc -z $KAFKA_HOST $KAFKA_PORT; do
+  sleep 2
+done
+
 kafka-topics --create \
   --bootstrap-server kafka:9092 \
   --replication-factor  1\

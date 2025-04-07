@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS credit_data (
     amount DOUBLE,
     oldbalanceOrg DOUBLE,
     newbalanceOrig DOUBLE,
+    fraud INT,
     PRIMARY KEY (client_id, transaction_id)
 );
 
@@ -29,6 +30,7 @@ CREATE TABLE IF NOT EXISTS insurance_data (
     living_status TEXT,
     vehicle_category TEXT,
     marital_status INT,
+    fraud INT,
     PRIMARY KEY (client_id, transaction_id)
 );
 

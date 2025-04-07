@@ -1,12 +1,8 @@
 #!/bin/bash
 
-echo "Attente du démarrage de Cassandra..."
-until cqlsh -e "DESCRIBE KEYSPACES"; do
-  sleep 5
+until cqlsh cassandra 9042 -e "describe cluster"; do
+    echo "En attente de la connexion à Cassandra..."
+    sleep 5
 done
 
-echo "Cassandra est prêt, exécution du script CQL..."
-cqlsh -f cql_scripts/init-db.cql
-
-echo "Script exécuté avec succès !"
-
+cqlsh cassandra 9042 -f /app/cql_scripts/init-db.cql

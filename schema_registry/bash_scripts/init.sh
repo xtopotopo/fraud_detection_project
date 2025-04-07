@@ -1,11 +1,7 @@
 #!/bin/bash
 
-SCHEMA_REGISTRY_URL="${SCHEMA_REGISTRY_URL:-http://localhost:8081}"
+SCHEMA_REGISTRY_URL="${SCHEMA_REGISTRY_URL:-http://schema-registry:8081}"
 
-until curl --output /dev/null --silent --head --fail "$SCHEMA_REGISTRY_URL/subjects"; do
-  echo "Schema Registry is not available yet at $SCHEMA_REGISTRY_URL. Retrying..."
-  sleep 5
-done
 
 for schema_file in /app/schemas/*.avsc
 do
